@@ -15,10 +15,14 @@ import Heading from "../Heading"
 import Input from "../inputs/Input"
 import Button from "../Button"
 import { BsGithub } from "react-icons/bs"
+import useLoginModal from "@/app/hooks/useLoginModal"
+import api from "@/app/axios/axios"
+import toast from "react-hot-toast"
 
 const RegisterModal = () => {
     const registerModal = useRegisterModal()
     const [isLoading, setIsLoading] = useState(false)
+    const loginModal = useLoginModal()
     
     const {
         register,
@@ -30,12 +34,27 @@ const RegisterModal = () => {
         defaultValues: {
             name: '',
             email: '',
-            password:''
+            password: '',
+            phone:''
         }
     })
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const  onSubmit: SubmitHandler<FieldValues> = async (data) => {
         setIsLoading(true)
+        try {
+            const res = await api.post('auth', {
+                username: data.name,
+                password: data.password,
+                email: data.email,
+                phone:data.phone
+            })
+            toast.success(res.data.message)
+            
+        } catch (error) {
+            toast.error(error.response?.data?.message)
+        } finally {
+            setIsLoading(false)
+        }
 
 
     }
@@ -53,15 +72,23 @@ const RegisterModal = () => {
                 required />
             <Input
                 id="name"
-                label="Name"
+                label="Tên hiển thị"
                 disabled={isLoading}
                 register={register}
                 errors={errors}
                 required />
             <Input
                 id="password"
-                label="Password"
+                label="Mật khẩu"
                 type="password"
+                disabled={isLoading}
+                register={register}
+                errors={errors}
+                required />
+            <Input
+                id="phone"
+                label="Số điện thoại"
+                type="number"
                 disabled={isLoading}
                 register={register}
                 errors={errors}
@@ -75,12 +102,12 @@ const RegisterModal = () => {
         <div className="flex flex-col gap-4 mt-3">
             <hr />  
             <Button outline
-                label="Continue with Google"
+                label="Tiếp tục với tài khoản Google"
                 icon={FcGoogle}
                 onClick={()=>{}}
             />
              <Button outline
-                label="Continue with Github"
+                label="Tiếp tục với tài khoản Github"
                 icon={BsGithub}
                 onClick={()=>{}}
             />
@@ -95,7 +122,12 @@ const RegisterModal = () => {
                     <div>
                         Đã có tài khoản ?
                     </div>
-                    <div onClick={registerModal.onClose}
+                    <div onClick={()=>{
+                        registerModal.onClose()
+                        loginModal.onOpen()
+                    }
+
+                    }
                         className="
                         text-neutral-500
                         cursor-pointer

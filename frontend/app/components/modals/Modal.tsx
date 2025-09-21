@@ -49,13 +49,13 @@ const Modal: React.FC<ModalProbs> = ({
         },300)
     }, [disabled, onClose])
     
-    const handleSubmit = useCallback(() => {
-        if (disabled) {
-           return
-        } 
-        onSubmit()
+   const handleSubmit = useCallback(() => {
+    if (disabled) {
+        return;
+    }
+    onSubmit();
+}, [disabled, onSubmit]);
 
-    }, [])
     
     const handelSecondaryAction = useCallback(() => {
         if (disabled || !secondaryAction) {

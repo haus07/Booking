@@ -83,11 +83,17 @@ const UserMenu = () => {
                     <div className="flex flex-col cursor-pointer">
                         <>
                             <MenuItem
-                                onclick={loginModal.onOpen}
-                                label="Login"
+                                onclick={() => {
+                                    toggleOpen()
+                                    loginModal.onOpen()
+                                }}
+                                label="Đăng nhập"
                             />
                             <MenuItem
-                                onclick={registerModal.onOpen}
+                                 onclick={() => {
+                                    toggleOpen()
+                                    registerModal.onOpen()
+                                }}
                                 label="Đăng kí"
                             />
                         </>

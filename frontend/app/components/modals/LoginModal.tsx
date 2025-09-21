@@ -73,13 +73,13 @@ const LoginModal = () => {
     const footerContent = (
         <div className="flex flex-col gap-4 mt-3">
             <hr />  
-            <Button outline
-                label="Continue with Google"
+              <Button outline
+                label="Tiếp tục với tài khoản Google"
                 icon={FcGoogle}
                 onClick={()=>{}}
             />
              <Button outline
-                label="Continue with Github"
+                label="Tiếp tục với tài khoản Github"
                 icon={BsGithub}
                 onClick={()=>{}}
             />
@@ -92,16 +92,19 @@ const LoginModal = () => {
                 <div className="justify-center flex flex-row items-center gap-2">
 
                     <div>
-                        Đã có tài khoản ?
+                        Chưa có tài khoản ?
                     </div>
-                    <div onClick={registerModal.onClose}
+                    <div onClick={()=>{
+                        loginModal.onClose()
+                        registerModal.onOpen()
+                    }}
                         className="
                         text-neutral-500
                         cursor-pointer
                         hover:underline
                         font-extrabold
                     ">
-                        Đăng nhập
+                        Đăng kí
                     </div>
                 </div>
                 
